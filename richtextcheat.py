@@ -15,6 +15,7 @@ def display_basic_usage():
     code = 'console.print("Hello, [bold magenta]World[/bold magenta]!")'
     console.print(f"Code:\n{code}\n")
     console.print("Hello, [bold magenta]World[/bold magenta]!")
+    
 def display_text_styling():
     codes = [
         'Text("Bold Text", style="bold")',
@@ -27,7 +28,8 @@ def display_text_styling():
     for code in codes:
         console.print(f"Code:\nconsole.print({code})\n")
         exec(f'console.print({code})')
-    print(f"\n")
+        print(f"\n")
+        
 def display_table():
     code = """\
 table = Table(title="Sample Table")
