@@ -1,282 +1,143 @@
-Here's an enhanced cheat sheet for the `rich` ## Python Rich Text Cheat Sheet with Previews
-
-#### 1. **Installation**
-To install the `rich` library, use pip:
-```bash
-pip install rich
-```
-
-#### 2. **Basic Usage**
-
-**Importing Library:**
-```python
 from rich.console import Console
 from rich.text import Text
-```
-
-**Create a Console Instance:**
-```python
-console = Console()
-```
-
-**Print Text with Styling:**
-```python
-console.print("Hello, [bold magenta]World[/bold magenta]!")
-```
-
-*Preview:*
-
-```
-Hello, World! (with "World" in bold magenta)
-```
-
-#### 3. **Text Styling**
-
-**Bold Text:**
-```python
-text = Text("Bold Text", style="bold")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Bold Text (in bold)
-```
-
-**Italic Text:**
-```python
-text = Text("Italic Text", style="italic")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Italic Text (in italics)
-```
-
-**Underline Text:**
-```python
-text = Text("Underlined Text", style="underline")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Underlined Text (underlined)
-```
-
-**Color Text:**
-```python
-text = Text("Colored Text", style="red")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Colored Text (in red)
-```
-
-**Background Color:**
-```python
-text = Text("Text with Background", style="on green")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Text with Background (with a green background)
-```
-
-**Combine Styles:**
-```python
-text = Text("Bold and Italic", style="bold italic")
-console.print(text)
-```
-
-*Preview:*
-
-```
-Bold and Italic (both bold and italic)
-```
-
-#### 4. **Tables**
-
-**Basic Table:**
-```python
 from rich.table import Table
+from rich.progress import Progress
+from rich.markdown import Markdown
+from rich.syntax import Syntax
+from rich.panel import Panel
+from rich.spinner import Spinner
+import time
 
+# Create a Console instance
+console = Console()
+
+def display_basic_usage():
+    code = 'console.print("Hello, [bold magenta]World[/bold magenta]!")'
+    console.print(f"Code:\n{code}\n")
+    console.print("Hello, [bold magenta]World[/bold magenta]!")
+def display_text_styling():
+    codes = [
+        'Text("Bold Text", style="bold")',
+        'Text("Italic Text", style="italic")',
+        'Text("Underlined Text", style="underline")',
+        'Text("Colored Text", style="red")',
+        'Text("Text with Background", style="on green")',
+        'Text("Bold and Italic", style="bold italic")'
+    ]
+    for code in codes:
+        console.print(f"Code:\nconsole.print({code})\n")
+        exec(f'console.print({code})')
+    print(f"\n")
+def display_table():
+    code = """\
 table = Table(title="Sample Table")
 table.add_column("Column 1")
 table.add_column("Column 2")
 table.add_row("Row 1 Col 1", "Row 1 Col 2")
 table.add_row("Row 2 Col 1", "Row 2 Col 2")
-
 console.print(table)
-```
 
-*Preview:*
-
-```
-Sample Table
-+-------------+-------------+
-| Column 1    | Column 2    |
-+-------------+-------------+
-| Row 1 Col 1 | Row 1 Col 2 |
-| Row 2 Col 1 | Row 2 Col 2 |
-+-------------+-------------+
-```
-
-**Table with Alignment:**
-```python
 table = Table(title="Aligned Table")
 table.add_column("Left", justify="left")
 table.add_column("Center", justify="center")
 table.add_column("Right", justify="right")
 table.add_row("Left", "Center", "Right")
-
 console.print(table)
-```
+"""
+    console.print(f"Code:\n{code}\n")
+    table = Table(title="Sample Table")
+    table.add_column("Column 1")
+    table.add_column("Column 2")
+    table.add_row("Row 1 Col 1", "Row 1 Col 2")
+    table.add_row("Row 2 Col 1", "Row 2 Col 2")
+    console.print(table)
 
-*Preview:*
-
-```
-Aligned Table
-+--------+--------+--------+
-| Left   | Center | Right  |
-+--------+--------+--------+
-| Left   | Center | Right  |
-+--------+--------+--------+
-```
-
-#### 5. **Progress Bars**
-
-**Simple Progress Bar:**
-```python
-from rich.progress import Progress
-
+    table = Table(title="Aligned Table")
+    table.add_column("Left", justify="left")
+    table.add_column("Center", justify="center")
+    table.add_column("Right", justify="right")
+    table.add_row("Left", "Center", "Right")
+    console.print(table)
+    print(f"\n")
+def display_progress_bar():
+    code = """\
 with Progress() as progress:
     task = progress.add_task("Processing...", total=100)
     while not progress.finished:
         progress.update(task, advance=1)
-```
-
-*Preview:*
-
-```
-Processing... [====>                ] 20/100
-```
-
-**Progress Bar with Description:**
-```python
-from rich.progress import Progress
-
-with Progress() as progress:
-    task = progress.add_task("[cyan]Loading...", total=100)
-    while not progress.finished:
-        progress.update(task, advance=1)
-```
-
-*Preview:*
-
-```
-Loading... [====>                ] 20/100
-```
-
-#### 6. **Markdown**
-
-**Render Markdown:**
-```python
-from rich.markdown import Markdown
-
-markdown = Markdown("# Hello World\nThis is **bold** text.")
+        time.sleep(0.05)
+"""
+    console.print(f"Code:\n{code}\n")
+    with Progress() as progress:
+        task = progress.add_task("Processing...", total=100)
+        while not progress.finished:
+            progress.update(task, advance=1)
+            time.sleep(0.05)
+    print(f"\n")
+def display_markdown():
+    code = """\
+markdown = Markdown("# Hello World\\nThis is **bold** text.")
 console.print(markdown)
-```
-
-*Preview:*
-
-```
-Hello World
-This is bold text.
-```
-
-#### 7. **Code Blocks**
-
-**Display Code:**
-```python
-from rich.console import Console
-from rich.syntax import Syntax
-
-code = """def hello_world():
-    print("Hello, World!")"""
-
+"""
+    console.print(f"Code:\n{code}\n")
+    markdown = Markdown("# Hello World\nThis is **bold** text.")
+    console.print(markdown)
+    print(f"\n")
+def display_code_block():
+    code = """\
+code = '''def hello_world():
+    print("Hello, World!")'''
 syntax = Syntax(code, "python", theme="monokai", line_numbers=True)
 console.print(syntax)
-```
+"""
+    console.print(f"Code:\n{code}\n")
+    code = """def hello_world():
+    print("Hello, World!")"""
+    syntax = Syntax(code, "python", theme="monokai", line_numbers=True)
+    console.print(syntax)
+    print(f"\n")
+def display_panel():
+    codes = [
+        'Panel("This is a panel", title="Panel Title")',
+        'Panel("This is another panel", title="Panel Title", border_style="bright_blue")'
+    ]
+    for code in codes:
+        console.print(f"Code:\nconsole.print({code})\n")
+        panel = eval(f'Panel({code})')
+        console.print(panel)
+    print(f"\n")
+def display_spinner():
+    code = """\
+with console.status("Processing...", spinner="dots"):
+    time.sleep(10)  # Simulating some processing time
+"""
+    console.print(f"Code:\n{code}\n")
+    with console.status("Processing...", spinner="dots"):
+        time.sleep(10)  # Simulating some processing time
 
-*Preview:*
-
-```
- 1| def hello_world():
- 2|     print("Hello, World!")
-```
-
-#### 8. **Panels**
-
-**Basic Panel:**
-```python
-from rich.panel import Panel
-
-panel = Panel("This is a panel", title="Panel Title")
-console.print(panel)
-```
-
-*Preview:*
-
-```
-+-------------------+
-| Panel Title       |
-+-------------------+
-| This is a panel   |
-+-------------------+
-```
-
-**Panel with Box Style:**
-```python
-panel = Panel("This is a panel", title="Panel Title", box="round")
-console.print(panel)
-```
-
-*Preview:*
-
-```
-╭─────────────────╮
-│ Panel Title     │
-├─────────────────┤
-│ This is a panel │
-╰─────────────────╯
-```
-
-#### 9. **Spinners**
-
-**Show a Spinner:**
-```python
-from rich.spinner import Spinner
-
-console.print("Processing", end="", flush=True)
-spinner = Spinner("dots")
-for _ in range(10):
-    console.print(next(spinner), end="\r", flush=True)
-```
-
-*Preview:*
-
-```
-Processing (spinner animating)
-```
-
-This cheat sheet should help you get started with rich text output using the `rich` library!
+if __name__ == "__main__":
+    display_basic_usage()
+    time.sleep(1)
+    print(f"\n")
+    display_text_styling()
+    time.sleep(1)
+    print(f"\n")
+    display_table()
+    time.sleep(1)
+    print(f"\n")
+    display_progress_bar()
+    time.sleep(1)
+    print(f"\n")
+    display_markdown()
+    time.sleep(1)
+    print(f"\n")
+    display_code_block()
+    time.sleep(1)
+    print(f"\n")
+    display_panel()
+    time.sleep(1)
+    print(f"\n")
+    display_spinner()
+    time.sleep(1)
+    print(f"\n")
+    pause = input("Press Enter to exit..")
